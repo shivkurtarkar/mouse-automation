@@ -15,28 +15,23 @@ def toggleState():
 root = Tk()
 root.title('Automate')
 
-#Parent widget for buttons
+# Parent widget for buttons
 btnFrame = Frame(root)
 btnFrame.grid(row=0, column=0, sticky=W+E)
 
 actionBtnTxt = StringVar()
 actionBtn = Button(btnFrame, textvariable=actionBtnTxt, command=toggleState)
 actionBtnTxt.set('Start')
-#actionBtn.pack(side=TOP, anchor=NW)
 actionBtn.grid(row=0,column=0, padx=(10), pady=10)
 
+# Log frame
 logFrame = LabelFrame(root, text='Logs', padx=5, pady=5)
-#logFrame.pack(side=TOP,anchor=NW, expand=1)
 logFrame.grid(row=1, column=0, columnspan=3, padx=10,pady=10, sticky=E+W+N+S)
-
 
 logScrollbar = Scrollbar(logFrame)
 logScrollbar.pack(side=RIGHT, fill=Y, expand=1)
 logList = Listbox(logFrame, yscrollcommand = logScrollbar.set)
-#for i in range(60):
-#	logList.insert(END, 'line no '+str(i))
 logList.pack(side=LEFT, fill=BOTH, expand=1)
 logScrollbar.config(command=logList.yview)
-
 
 root.mainloop()
