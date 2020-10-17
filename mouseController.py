@@ -1,4 +1,5 @@
-import mouse
+# import mouse
+import pyautogui
 import time
 import threading
 
@@ -6,22 +7,41 @@ import threading
 def dummy(str):
 	pass
 
+def dummyCommands():
+	return []
+
+# def click(x, y):
+# 	curr = mouse.get_position()
+# 	mouse.move(x, y, )
+# 	mouse.click('left')
+# 	mouse.move(curr[0], curr[1])
+
 def click(x, y):
-	curr = mouse.get_position()
-	mouse.move(x, y, absolute=True, duration=0.0)
-	mouse.click('left')
-	mouse.move(curr[0], curr[1])
+	curr = pyautogui.position()
+	pyautogui.click(x, y)
+	pyautogui.moveTo(curr[0], curr[1])
+
+
+def mouseLoc():
+	return pyautogui.position()
+
 
 class Controller():
-	def __init__(self, logCursor=False, start=False, callback=None):
+	def __init__(self, logCursor=False, start=False, logCallback=None, commandsCallback=None):
 		self.logCursor =logCursor
 		self.isRunning = start
 		
 		self.thread = None
-		if callback is None:
-			self.collback = dummy
+		if logCallback is None:
+			self.logCallback = dummy
 		else:
-			self.callback=callback
+			self.logCallback=logCallback
+
+		if commandsCallback is None:
+			self.getCommands = dummyCommands
+		else:
+			self.getCommands = commandsCallback
+
 	
 	def __del__(self):
 		self.stopThread()
@@ -84,7 +104,7 @@ class Controller():
 		print('executing loop')
 		currentTime = time.time()
 		lastFrameTime = currentTime
-		FPS = 2
+		FPS = 1
 		
 		while self.isRunning or self.logCursor:
 			currentTime = time.time()
@@ -100,16 +120,24 @@ class Controller():
 		
 		# do clicks
 		if self.isRunning:
-			self.runScript()
+			commands =self.getCommands()
+			self.runScript(commands)
 
 		if self.logCursor:
 			self.logCurrentPos()
 
 	def logCurrentPos(self):
-		cord = mouse.get_position()
-		self.callback(' cursor cord: ' +str(cord))
+		cord = mouseLoc()
+		self.logCallback(' cursor cord: ' +str(cord))
 
-	def runScript(self):
-		x,y =(0,0)
-		click(x,y)
+	def runScript(self, commands):
+		for each in commands:
+			if each[0] == 'click':
+				x,y = each[1]
+				self.logCallback(' clicking '+str((x,y)))
+				click(x,y)
+			elif each[0] == 'keypress':
+				print('keypress not supported')
+			else:
+				print('Unsupported action :', each[0])
 		

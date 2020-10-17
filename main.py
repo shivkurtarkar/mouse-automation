@@ -4,8 +4,11 @@ from datetime import datetime
 import time
 
 from  mouseController import *
+from  parseScript import *
 
-maxListLen = 20
+MAX_LIST_LEN = 20
+DEFAULT_SCRIPT = './scripts/autoScript.txt'
+
 mc = None
 
 def log(txt):
@@ -13,11 +16,16 @@ def log(txt):
 	log = str(now)+' :: '+txt
 	logList.insert(END, log)
 	
-	while logList.size() >= maxListLen:
+	while logList.size() >= MAX_LIST_LEN:
 		logList.delete(0)
 	logList.see(END)
 
-mc = Controller(callback =log)
+def getCommands():
+	txt= scriptTxt.get('1.0', END)
+	commands = parseScript(txt)
+	return commands
+
+mc = Controller(logCallback =log, commandsCallback=getCommands)
 
 def toggleState():
 	print('test')
@@ -32,6 +40,10 @@ def toggleState():
 
 def reloadScript():
 	print('reloading script')
+	txt = readFile(DEFAULT_SCRIPT)
+	if txt is not None:
+		scriptTxt.insert(INSERT, txt)
+
 
 def clearLogs():
 	print('clearing Logs')
@@ -89,6 +101,8 @@ scriptFrame.rowconfigure(0,  weight=1)
 
 scriptTxt = ScrolledText(scriptFrame, wrap=WORD, height=7)
 scriptTxt.grid(row=0,column=0, sticky=E+W+N+S)
+
+reloadScript()
 
 row=row+1
 # Log frame
