@@ -25,6 +25,7 @@ contains code to read file and converting script text to commands
 contains main logic that follows and executes the commands
 
 ## Instructions to getting started
+Install tk inter for your system.
 
 Install dependencies by running in root directory
 ```pip3 install -r requirements.txt```
