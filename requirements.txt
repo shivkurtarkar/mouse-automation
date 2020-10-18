@@ -1,1 +1,2 @@
-mouse==0.7.1
+#mouse==0.7.1
+PyAutoGUI==0.9.52
