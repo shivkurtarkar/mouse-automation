@@ -6,6 +6,16 @@ and whatever the bot does it logs out in the log section.
 
 ![application gui](https://github.com/shivkurtarkar/mouse-automation/blob/master/pic/Screenshot_20201018_160843.png)
 
+## Functionality
+### Start/Stop
+runs/stops the script
+### Reload script
+fetches default script saved in `scripts/autoScript.txt`
+### Clear log
+clears out logs
+### Log cursor coordinate
+logs cursor coordinate if turned on, to help you write script.
+
 ## File structure
 ### `main.py`
 contains gui code. I have used tkinter to write application interface
@@ -17,12 +27,12 @@ contains main logic that follows and executes the commands
 ## Instructions to getting started
 
 Install dependencies by running in root directory
-`pip3 install -r requirements.txt`
+```pip3 install -r requirements.txt```
 
 Run as a administrator since mouse control requires admin previlieges
 On Linux
-`sudo python3 main.py`
+```sudo python3 main.py```
 
 On windows open cmd as administrator
 and run 
-`python3 main.py`
+```python3 main.py```
